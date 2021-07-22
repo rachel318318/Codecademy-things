@@ -1,38 +1,21 @@
-def solution(n, k, cmd):
-    tot = n - 1
-    del_lst = []
-    answer = ''
-    
-    for i in cmd:
-        if 'U' in i:
-            num = int(i[2:])
-            k -= num
-            if k < 0:
-                k = 0
-        elif 'D' in i:
-            num = int(i[2:])
-            k += num
-            if k > tot:
-                k = tot
-        elif i == 'C':
-            del_lst.append(k)
-            if k == tot:
-                k -= 1
-            tot -= 1
-        elif i == 'Z':
-            tot += 1
-            u = del_lst.pop()
-            if u <= k:
-                k += 1
-        
-    j = 0
-    while j < n:
-        if j in del_lst:
-            answer += "X"
-        else:
-            answer += "O"
-        j += 1
-            
-    return answer
+def solution(n):
+    answer = [[0 for j in range(1,i+1)] for i in range(1,n+1)]
 
-print(solution(8,2,["D 2","C","U 3","C","D 4","C","U 2","Z","Z","U 1","C"]))
+    x,y = -1, -1
+    num = 1
+
+    for i in range(n):
+        for j in range(i,n):
+            if i % 3 == 0:
+                x += 1
+                y += 1
+            elif i % 3 == 1:
+                y -= 1
+            else:
+                x -= 1
+            answer[x][y] = num
+            num += 1
+    
+    return sum(answer,[])
+
+print(solution(3))
